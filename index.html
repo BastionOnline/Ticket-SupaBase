@@ -1,0 +1,20 @@
+<script src="https://unpkg.com/@supabase/supabase-js"></script>
+<script>
+    const SUPABASE_URL = "YOUR_PROJECT_URL";
+    const SUPABASE_KEY = "YOUR_ANON_KEY";
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadFruits() {
+    let { data, error } = await supabase
+        .from('fruits')
+        .select('*');
+    if (error) {
+        console.error(error);
+    } else {
+        console.log(data);
+        document.body.innerHTML = data.map(f => `<p>${f.name}</p>`).join('');
+    }
+}
+
+    loadFruits();
+</script>

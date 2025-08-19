@@ -1,20 +1,41 @@
-<script src="https://unpkg.com/@supabase/supabase-js"></script>
-<script>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Fruit List</title>
+</head>
+<body>
+    <h1>🍏 My Fruit List</h1>
+    <div id="fruits">Loading...</div>
+
+    <!-- Load Supabase client library FIRST -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <!-- Then your code -->
+    <script>
+    // Replace these with your Supabase project settings
     const SUPABASE_URL = "https://qtueipbewpcjpzjmfyof.supabase.co";
     const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0dWVpcGJld3BjanB6am1meW9mIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUxMjUxMTAsImV4cCI6MjA3MDcwMTExMH0.XTDq69lN_mZxpeWwrDQcYAbbZ1zYkLPrQNo4xMSjcig";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-async function loadFruits() {
-    let { data, error } = await supabase
+    // ✅ Create client after library loads
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function loadFruits() {
+        const { data, error } = await supabaseClient
         .from('Fruits')
         .select('*');
-    if (error) {
-        console.error(error);
-    } else {
-        console.log(data);
-        document.body.innerHTML = data.map(f => `<p>${f.name}</p>`).join('');
+
+        if (error) {
+            document.getElementById('fruits').innerHTML = "Error loading fruits";
+            console.error(error);
+            return;
+        }
+
+        document.getElementById('fruits').innerHTML =
+            data.map(fruit => `<p>${fruit.name}</p>`).join('');
     }
-}
 
     loadFruits();
-</script>
+    </script>
+</body>
+</html>

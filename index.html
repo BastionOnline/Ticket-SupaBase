@@ -6,7 +6,7 @@
 
 async function loadFruits() {
     let { data, error } = await supabase
-        .from('fruits')
+        .from('Fruits')
         .select('*');
     if (error) {
         console.error(error);
